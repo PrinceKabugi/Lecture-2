@@ -1,0 +1,64 @@
+from abc import ABC, abstractmethod
+
+# Interface Amphibious
+class Amphibious(ABC):
+    @abstractmethod
+    def dock(self):
+        pass
+    
+    @abstractmethod
+    def launch(self):
+        pass
+
+# Interface AirVehicle
+class AirVehicle(ABC):
+    @abstractmethod
+    def fly(self):
+        pass
+    
+    @abstractmethod
+    def land(self):
+        pass
+
+# Implementing Amphibious Plane
+class AmphibiousPlane(Amphibious, AirVehicle):
+    def dock(self):
+        print("Amphibious plane docking...")
+
+    def launch(self):
+        print("Amphibious plane launching...")
+
+    def fly(self):
+        print("Amphibious plane flying...")
+
+    def land(self):
+        print("Amphibious plane landing...")
+
+# Abstract class ElectricVehicle
+class ElectricVehicle(ABC):
+    @abstractmethod
+    def battery_type(self):
+        pass
+
+# Implementing ElectricCar
+class ElectricCar(ElectricVehicle):
+    def battery_type(self):
+        return "Lithium-ion"
+
+# Implementing ElectricBike
+class ElectricBike(ElectricVehicle):
+    def battery_type(self):
+        return "Nickel Metal Hydride"
+
+# Example usage
+amphibious_plane = AmphibiousPlane()
+amphibious_plane.dock()
+amphibious_plane.launch()
+amphibious_plane.fly()
+amphibious_plane.land()
+
+electric_car = ElectricCar()
+print("Electric car battery type:", electric_car.battery_type())
+
+electric_bike = ElectricBike()
+print("Electric bike battery type:", electric_bike.battery_type())
