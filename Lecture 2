@@ -1,64 +1,126 @@
-from abc import ABC, abstractmethod
+class Vehicle {
+    private String make;
+    private String model;
+    private int year;
 
-# Interface Amphibious
-class Amphibious(ABC):
-    @abstractmethod
-    def dock(self):
-        pass
-    
-    @abstractmethod
-    def launch(self):
-        pass
+    public Vehicle(String make, String model, int year) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+    }
 
-# Interface AirVehicle
-class AirVehicle(ABC):
-    @abstractmethod
-    def fly(self):
-        pass
-    
-    @abstractmethod
-    def land(self):
-        pass
+    public void start() {
+        System.out.println("Starting " + year + " " + make + " " + model);
+    }
 
-# Implementing Amphibious Plane
-class AmphibiousPlane(Amphibious, AirVehicle):
-    def dock(self):
-        print("Amphibious plane docking...")
+    public void stop() {
+        System.out.println("Stopping " + year + " " + make + " " + model);
+    }
+}
 
-    def launch(self):
-        print("Amphibious plane launching...")
+class Car extends Vehicle {
+    private String transmission;
 
-    def fly(self):
-        print("Amphibious plane flying...")
+    public Car(String make, String model, int year, String transmission) {
+        super(make, model, year);
+        this.transmission = transmission;
+    }
 
-    def land(self):
-        print("Amphibious plane landing...")
+    public void display() {
+        System.out.println(year + " " + make + " " + model + " - Transmission: " + transmission);
+    }
+}
 
-# Abstract class ElectricVehicle
-class ElectricVehicle(ABC):
-    @abstractmethod
-    def battery_type(self):
-        pass
+class Bike extends Vehicle {
+    private String type;
 
-# Implementing ElectricCar
-class ElectricCar(ElectricVehicle):
-    def battery_type(self):
-        return "Lithium-ion"
+    public Bike(String make, String model, int year, String type) {
+        super(make, model, year);
+        this.type = type;
+    }
 
-# Implementing ElectricBike
-class ElectricBike(ElectricVehicle):
-    def battery_type(self):
-        return "Nickel Metal Hydride"
+    public void display() {
+        System.out.println(year + " " + make + " " + model + " - Type: " + type);
+    }
+}
 
-# Example usage
-amphibious_plane = AmphibiousPlane()
-amphibious_plane.dock()
-amphibious_plane.launch()
-amphibious_plane.fly()
-amphibious_plane.land()
+class Scooter extends Vehicle {
+    private String engineSize;
 
-electric_car = ElectricCar()
-print("Electric car battery type:", electric_car.battery_type())
+    public Scooter(String make, String model, int year, String engineSize) {
+        super(make, model, year);
+        this.engineSize = engineSize;
+    }
 
-electric_bike = ElectricBike()
-print("Electric bike battery type:", electric_bike.battery_type())
+    public void display() {
+        System.out.println(year + " " + make + " " + model + " - Engine Size: " + engineSize);
+    }
+}
+
+class VehicleRentalService {
+    public void rentVehicle(String vehicleType, String make, String model, int year, int rentalDuration, boolean insuranceIncluded) {
+        if (vehicleType.equals("car")) {
+            rentCar(make, model, year, rentalDuration, insuranceIncluded);
+        } else if (vehicleType.equals("bike")) {
+            rentBike(make, model, year, rentalDuration, insuranceIncluded);
+        } else if (vehicleType.equals("scooter")) {
+            rentScooter(make, model, year, rentalDuration, insuranceIncluded);
+        } else {
+            System.out.println("Invalid vehicle type.");
+        }
+    }
+
+    private void rentCar(String make, String model, int year, int rentalDuration, boolean insuranceIncluded) {
+        Car car = new Car(make, model, year, "Automatic");
+        car.start();
+        car.display();
+        System.out.println("Renting for " + rentalDuration + " days.");
+        if (insuranceIncluded) {
+            System.out.println("Insurance included.");
+        } else {
+            System.out.println("Insurance not included.");
+        }
+        car.stop();
+    }
+
+    private void rentBike(String make, String model, int year, int rentalDuration, boolean insuranceIncluded) {
+        Bike bike = new Bike(make, model, year, "Cruiser");
+        bike.start();
+        bike.display();
+        System.out.println("Renting for " + rentalDuration + " days.");
+        if (insuranceIncluded) {
+            System.out.println("Insurance included.");
+        } else {
+            System.out.println("Insurance not included.");
+        }
+        bike.stop();
+    }
+
+    private void rentScooter(String make, String model, int year, int rentalDuration, boolean insuranceIncluded) {
+        Scooter scooter = new Scooter(make, model, year, "125cc");
+        scooter.start();
+        scooter.display();
+        System.out.println("Renting for " + rentalDuration + " days.");
+        if (insuranceIncluded) {
+            System.out.println("Insurance included.");
+        } else {
+            System.out.println("Insurance not included.");
+        }
+        scooter.stop();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        VehicleRentalService rentalService = new VehicleRentalService();
+
+        // Rent a car for 5 days with insurance
+        rentalService.rentVehicle("car", "Toyota", "Camry", 2020, 5, true);
+
+        // Rent a bike for 3 days without insurance
+        rentalService.rentVehicle("bike", "Harley-Davidson", "Sportster", 2021, 3, false);
+
+        // Rent a scooter for 7 days with insurance
+        rentalService.rentVehicle("scooter", "Honda", "Activa", 2019, 7, true);
+    }
+}
